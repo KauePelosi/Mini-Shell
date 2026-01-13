@@ -1,0 +1,32 @@
+# --- Binários e Executáveis ---
+# Ignora arquivos de saída de compilação em qualquer pasta
+*.out
+*.o
+*.obj
+*.exe
+*.a
+*.so
+
+# Ignora o executável principal na raiz ou na pasta bin
+main.out
+bin/
+build/
+
+# --- Compilação e LSP ---
+# Se você usa o clangd, esse arquivo é importante, 
+# mas se ele for gerado automaticamente pelo CMake, pode ignorar.
+# Por enquanto, como você o tem na raiz, vamos mantê-lo FORA do gitignore 
+# para que outros consigam compilar. Se quiser ignorar:
+# .clangd/
+# compile_commands.json
+
+# --- Sistema e Editores ---
+.DS_Store
+.vscode/
+.helix/
+.idea/
+*.swp
+*~
+
+# --- Logs ---
+*.log
