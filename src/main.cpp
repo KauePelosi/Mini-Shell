@@ -1,3 +1,7 @@
-#include <iostream>
+#include "shell.hpp"
 
-int main() { return 0; }
+int main() {
+  shell();
+
+  return 0
+}

@@ -1,17 +1,14 @@
+#include "shell.hpp"
+#include "tokenize.hpp"
 #include <iostream>
 #include <string>
 
-int main() {
-  std::string entrada;
+void shell() {
+  std::string input{};
   while (true) {
     std::cout << "MiniShell-> " << std::flush;
+    std::getline(std::cin, input);
 
-    if (!std::getline(std::cin, entrada)) {
-      break;
-    }
-    if (entrada.empty()) {
-      continue;
-    }
+    auto tokens = tokenize(input);
   }
-  return 0;
 }
