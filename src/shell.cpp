@@ -1,4 +1,5 @@
 #include "shell.hpp"
+#include "dispatcher.hpp"
 #include "tokenize.hpp"
 #include <iostream>
 #include <string>
@@ -10,5 +11,6 @@ void shell() {
     std::getline(std::cin, input);
 
     auto tokens = tokenize(input);
+    dispatcher(tokens);
   }
 }
