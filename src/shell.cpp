@@ -3,28 +3,30 @@
 #include "tokenize.hpp"
 #include <iostream>
 #include <limits.h>
-#include <linux/limits.h>
 #include <string>
 #include <unistd.h>
 
 void shell() {
   std::string input{};
   char cwd[PATH_MAX];
-
+  int status{};
+  std::string shellName = "MiniShell";
   while (true) {
+
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
-      std::cout << "MiniShell in " << cwd << "-> " << std::flush;
+      std::cout << shellName << " in " << cwd << "-> " << std::flush;
     } else {
       perror("getcwd() error");
-      std::cout << "MiniShell-> " << std::flush;
+      std::cout << shellName << "-> " << std::flush;
     }
     if (!std::getline(std::cin, input)) {
+      std::cout << "\n";
       break;
     }
 
     auto tokens = tokenize(input);
     if (!tokens.empty()) {
-      dispatcher(tokens);
+      status = dispatcher(tokens);
     }
   }
 }
