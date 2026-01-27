@@ -1,5 +1,7 @@
 #include "externalCommands.hpp"
+#include "config.hpp"
 #include <cstdlib>
+#include <iostream>
 #include <string>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -18,7 +20,7 @@ int externalCommands(const std::vector<std::string> &tokens) {
     return 1;
   } else if (pid == 0) {
     if (execvp(c_args[0], c_args.data()) == -1) {
-      perror("MiniShell");
+      std::cerr << shellName << "-> " << c_args[0] << ": command not found\n";
     }
     exit(EXIT_FAILURE);
   } else {

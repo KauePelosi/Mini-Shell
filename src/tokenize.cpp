@@ -12,18 +12,30 @@ std::vector<std::string> tokenize(const std::string &input) {
   std::vector<std::string> tokens;
   std::string temp;
 
+  bool inQuotes = false;
+  char quoteChar = '\0';
+
   for (char c : input) {
-    if (std::isspace(static_cast<unsigned char>(c))) {
+    if (c == '"' || c == '\'') {
+      if (!inQuotes) {
+        inQuotes = true;
+        quoteChar = c;
+      } else if (quoteChar == c) {
+        inQuotes = false;
+      }
+      continue;
+    }
+    if (!inQuotes && std::isspace(static_cast<unsigned char>(c))) {
       if (!temp.empty()) {
         addToken(tokens, temp);
       }
-    } else {
-      temp += c;
+      continue;
     }
+    temp += c;
   }
-
   if (!temp.empty()) {
     addToken(tokens, temp);
   }
+
   return tokens;
 }

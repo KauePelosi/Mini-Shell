@@ -1,4 +1,5 @@
 #include "shell.hpp"
+#include "config.hpp"
 #include "dispatcher.hpp"
 #include "tokenize.hpp"
 #include <iostream>
@@ -10,7 +11,6 @@ void shell() {
   std::string input{};
   char cwd[PATH_MAX];
   int status{};
-  std::string shellName = "MiniShell";
   while (true) {
 
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
