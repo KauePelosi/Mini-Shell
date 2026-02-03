@@ -35,3 +35,10 @@ g++ -Iinclude src/*.cpp -o minishell
 
 # Execute
 ./minishell
+Permissions Size User Date Modified Name
+drwxr-xr-x     - kaue 27 Jan 20:29  bin
+drwxr-xr-x     - kaue 27 Jan 20:29  build
+drwxr-xr-x     - kaue 27 Jan 20:18  include
+drwxr-xr-x     - kaue 27 Jan 20:41  src
+.rwxr-xr-x    10 kaue  6 Jan 22:05  compile_flags.txt
+.rw-r--r--  1.6k kaue 26 Jan 19:33  README.md
