@@ -1,44 +1,164 @@
-🐚 MiniShell
-Um interpretador de comandos simples desenvolvido em C++ para fins de aprendizado de Sistemas Operacionais e gerenciamento de memória. Este projeto simula o comportamento básico de um Shell (como Bash ou Zsh), permitindo a execução de comandos internos e externos.
+# MiniShell
 
-🚀 Funcionalidades Atuais
-Tokenização Eficiente: Processamento de entrada do usuário usando std::move para evitar cópias desnecessárias.
+A **minimal Unix-like shell written in C++**, developed as a **personal portfolio project**. MiniShell focuses on demonstrating strong fundamentals in **operating systems**, **process management**, **command execution**, and **clean, extensible C++ design**.
 
-Comandos Internos (Built-ins): Sistema de despacho via std::unordered_map para execução rápida (ex: cd).
+This project is intentionally scoped: it is not meant to replace Bash or Zsh, but to show **how a shell works internally**, with emphasis on clarity and correctness.
 
-Comandos Externos: Execução de binários do sistema via fork() e execvp().
+---
 
-Modularidade: Estrutura de código dividida entre tokenize, dispatcher, e lógica de execução.
+## Features
 
-🛠️ Tecnologias e Conceitos Aplicados
-C++17/20: Uso de std::string_view para otimização de chaves de busca.
+### Implemented
 
-RAII & Smart Memory: Uso de referências e movimentação de objetos (std::move) para performance.
+* Interactive prompt displaying the **current working directory (cwd)**
+* Command input via `std::getline`
+* Custom **tokenizer** with support for single and double quotes
+* Execution of external commands using:
 
-POSIX API: Manipulação de processos (pid_t, waitpid) e sistema de arquivos (chdir, getcwd).
+  * `fork()`
+  * `execvp()`
+  * `waitpid()`
+* Built-in command system with dynamic dispatch
+* Implemented built-ins:
 
-📋 Próximos Passos (Backlog)
-[ ] Aprimorar Tokenize: Adicionar suporte para aspas (ex: cd "Pasta com Espaço").
+  * `cd` (defaults to `$HOME`)
+  * `exit [status]`
+* Clear separation between:
 
-[ ] Segurança de Memória: Substituir const_cast por cópias seguras no tratamento de argumentos para o execvp.
+  * internal commands (built-ins)
+  * external system commands
+* Modular project structure (`src/` / `include/`)
+* Fully functional compiled binary
 
-[ ] Expansão de Comandos: Implementar exit, pwd e help.
+---
 
-[ ] Gerenciamento de Sinais: Tratar Ctrl+C (SIGINT) para não encerrar o Shell acidentalmente.
+## Architecture Overview
 
-[ ] Otimização de Container: Implementar reserve() no vetor de tokens para evitar realocações custosas.
+The project is designed to be **simple to follow**, while remaining **easy to extend**.
 
-🏗️ Como Compilar e Rodar
-Bash
-# Compile o projeto
-g++ -Iinclude src/*.cpp -o minishell
+### Execution Flow
 
-# Execute
-./minishell
-Permissions Size User Date Modified Name
-drwxr-xr-x     - kaue 27 Jan 20:29  bin
-drwxr-xr-x     - kaue 27 Jan 20:29  build
-drwxr-xr-x     - kaue 27 Jan 20:18  include
-drwxr-xr-x     - kaue 27 Jan 20:41  src
-.rwxr-xr-x    10 kaue  6 Jan 22:05  compile_flags.txt
-.rw-r--r--  1.6k kaue 26 Jan 19:33  README.md
+```
+User Input
+   ↓
+Tokenization
+   ↓
+Dispatcher
+   ├─ Built-in command
+   └─ External command (fork + exec)
+```
+
+### Built-in Dispatching
+
+Built-ins are registered in an `unordered_map`, allowing new commands to be added **without modifying the dispatcher logic**.
+
+---
+
+## Project Structure
+
+```
+MiniShell/
+├── bin/            # Final executable
+├── build/          # Compiled object files (.o)
+├── include/        # Header files
+│   ├── builtCd.hpp
+│   ├── builtExit.hpp
+│   ├── dispatcher.hpp
+│   ├── externalCommands.hpp
+│   ├── getInternMap.hpp
+│   ├── shell.hpp
+│   └── tokenize.hpp
+├── src/            # Source files
+│   ├── builtCd.cpp
+│   ├── builtExit.cpp
+│   ├── dispatcher.cpp
+│   ├── externalCommands.cpp
+│   ├── getInternMap.cpp
+│   ├── shell.cpp
+│   └── tokenize.cpp
+├── compile_flags.txt
+└── README.md
+```
+
+---
+
+## Technologies and Concepts
+
+* Modern C++ (C++17 / C++20)
+* Unix/Linux system programming
+* Process creation and management
+* File system navigation
+* Low-level system calls
+* STL containers and algorithms
+* Modular and extensible design
+
+---
+
+## Roadmap
+
+The following roadmap is organized by **impact and technical depth**, with portfolio value in mind.
+
+### High Priority (Core Shell Features)
+
+* [ ] Pipe support (`|`)
+* [ ] Input/output redirection (`>`, `>>`, `<`)
+* [ ] Proper signal handling (`SIGINT`, Ctrl+C)
+* [ ] Return status of the last executed command (`$?`)
+* [ ] Command history (in-memory)
+
+### Medium Priority (Shell Behavior and Usability)
+
+* [ ] Environment variable expansion (`$VAR`)
+* [ ] Built-in `export` and `unset`
+* [ ] Tilde expansion (`~`)
+* [ ] Improved parser (state machine or simple AST)
+* [ ] Error messages closer to real shells
+
+### Advanced / High-Value Enhancements
+
+* [ ] Pipeline execution with multiple processes
+* [ ] Job control basics (`fg`, `bg`, `jobs`)
+* [ ] Background execution (`&`)
+* [ ] Logical operators (`&&`, `||`)
+* [ ] Subshell execution (`(command)`)
+
+### Low Priority (Polish and Portfolio Extras)
+
+* [ ] Config file support (`.minishellrc`)
+* [ ] Customizable prompt
+* [ ] Debug / verbose mode
+* [ ] Automated tests
+* [ ] Simple performance benchmarks
+
+---
+
+## Goals of the Project
+
+MiniShell exists to:
+
+* Demonstrate solid understanding of **Unix internals**
+* Show clean, maintainable **C++ system-level code**
+* Highlight architectural thinking, not just features
+* Serve as a strong **portfolio project** for systems / backend roles
+
+---
+
+## How to Run
+
+```bash
+./bin/main.out
+```
+
+---
+
+## Project Status
+
+* Stable core with clean architecture
+* Missing classic shell features by design (planned)
+* Strong foundation for incremental evolution
+
+---
+
+## License
+
+Personal project developed for educational and portfolio purposes.
