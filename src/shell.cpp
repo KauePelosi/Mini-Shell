@@ -1,6 +1,6 @@
 #include "shell.hpp"
-#include "config.hpp"
 #include "dispatcher.hpp"
+#include "printCwd.hpp"
 #include "tokenize.hpp"
 #include <iostream>
 #include <limits.h>
@@ -12,13 +12,8 @@ void shell() {
   char cwd[PATH_MAX];
   int status{};
   while (true) {
+    printCwd();
 
-    if (getcwd(cwd, sizeof(cwd)) != NULL) {
-      std::cout << shellName << " in " << cwd << "-> " << std::flush;
-    } else {
-      perror("getcwd() error");
-      std::cout << shellName << "-> " << std::flush;
-    }
     if (!std::getline(std::cin, input)) {
       std::cout << "\n";
       break;
