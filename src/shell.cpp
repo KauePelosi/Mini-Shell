@@ -1,6 +1,7 @@
 #include "shell.hpp"
 #include "dispatcher.hpp"
 #include "history.hpp"
+#include "historyGlobal.hpp"
 #include "printCwd.hpp"
 #include "tokenize.hpp"
 #include <iostream>
@@ -9,7 +10,6 @@
 #include <unistd.h>
 
 void shell() {
-  History history;
   history.load();
 
   std::string input{};
