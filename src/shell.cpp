@@ -1,5 +1,6 @@
 #include "shell.hpp"
 #include "dispatcher.hpp"
+#include "history.hpp"
 #include "printCwd.hpp"
 #include "tokenize.hpp"
 #include <iostream>
@@ -8,9 +9,13 @@
 #include <unistd.h>
 
 void shell() {
+  History history;
+  history.load();
+
   std::string input{};
   char cwd[PATH_MAX];
   int status{};
+
   while (true) {
     printCwd();
 
@@ -18,7 +23,7 @@ void shell() {
       std::cout << "\n";
       break;
     }
-
+    history.add(input);
     auto tokens = tokenize(input);
     if (!tokens.empty()) {
       status = dispatcher(tokens);
