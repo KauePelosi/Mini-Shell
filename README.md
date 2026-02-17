@@ -104,7 +104,7 @@ The following roadmap is organized by **impact and technical depth**, with portf
 * [ ] Input/output redirection (`>`, `>>`, `<`)
 * [ ] Proper signal handling (`SIGINT`, Ctrl+C)
 * [ ] Return status of the last executed command (`$?`)
-* [ ] Command history (in-memory)
+* [x] Command history (in-memory)
 
 ### Medium Priority (Shell Behavior and Usability)
 
