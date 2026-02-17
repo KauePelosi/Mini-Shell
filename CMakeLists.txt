@@ -22,7 +22,7 @@ target_sources(MiniShell PRIVATE
   src/utils/printCwd.cpp
 )
 
-target_include_directories(MiniShell PRIVATE src)
+target_include_directories(MiniShell PRIVATE include)
 target_compile_options(MiniShell PRIVATE -Wall -Wextra -pedantic -g)
 
 set_target_properties(minishell PROPERTIES

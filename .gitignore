@@ -12,13 +12,10 @@ main.out
 bin/
 build/
 
-# --- Compilação e LSP ---
-# Se você usa o clangd, esse arquivo é importante, 
-# mas se ele for gerado automaticamente pelo CMake, pode ignorar.
-# Por enquanto, como você o tem na raiz, vamos mantê-lo FORA do gitignore 
-# para que outros consigam compilar. Se quiser ignorar:
-# .clangd/
-# compile_commands.json
+.clangd/
+compile_commands.json
+compile_flags.txt
+compile_commands.json
 
 # --- Sistema e Editores ---
 .DS_Store
