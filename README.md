@@ -340,7 +340,7 @@ MiniShell exists to:
 ## How to Run
 
 ```bash
-./bin/main.out
+./bin/MiniShell
 ```
 
 ---
