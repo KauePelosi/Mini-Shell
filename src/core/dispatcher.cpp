@@ -1,6 +1,6 @@
-#include "dispatcher.hpp"
-#include "externalCommands.hpp"
-#include "getInternMap.hpp"
+#include "core/dispatcher.hpp"
+#include "core/externalCommands.hpp"
+#include "utils/getInternMap.hpp"
 #include <string>
 #include <unordered_map>
 #include <vector>

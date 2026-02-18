@@ -1,7 +1,7 @@
-#include "getInternMap.hpp"
-#include "builtCd.hpp"
-#include "builtExit.hpp"
-#include "builtHistory.hpp"
+#include "utils/getInternMap.hpp"
+#include "built-ins/builtCd.hpp"
+#include "built-ins/builtExit.hpp"
+#include "built-ins/builtHistory.hpp"
 #include <functional>
 #include <string>
 #include <string_view>

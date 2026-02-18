@@ -1,4 +1,4 @@
-#include "historyGlobal.hpp"
-#include "history.hpp"
+#include "utils/historyGlobal.hpp"
+#include "utils/history.hpp"
 
 History history;

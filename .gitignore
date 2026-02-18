@@ -15,7 +15,6 @@ build/
 .clangd/
 compile_commands.json
 compile_flags.txt
-compile_commands.json
 .cache
 # --- Sistema e Editores ---
 .DS_Store

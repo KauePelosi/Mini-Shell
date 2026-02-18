@@ -1,9 +1,9 @@
-#include "shell.hpp"
-#include "dispatcher.hpp"
-#include "history.hpp"
-#include "historyGlobal.hpp"
-#include "printCwd.hpp"
-#include "tokenize.hpp"
+#include "core/shell.hpp"
+#include "core/dispatcher.hpp"
+#include "core/tokenize.hpp"
+#include "utils/history.hpp"
+#include "utils/historyGlobal.hpp"
+#include "utils/printCwd.hpp"
 #include <iostream>
 #include <limits.h>
 #include <string>
@@ -13,7 +13,6 @@ void shell() {
   history.load();
 
   std::string input{};
-  char cwd[PATH_MAX];
   int status{};
 
   while (true) {
