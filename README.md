@@ -198,6 +198,11 @@ After configuring your project with CMake, it's recommended to create a symbolic
 ln -sf build/compile_commands.json .
 ```
 
+# Generate the compile_commands.json:
+```
+cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+```
+
 This ensures that `clangd` (or any other tool looking for this file in the project root) can easily locate it, preventing false 
 errors related to 
 false include errors and improving the overall development experience.
