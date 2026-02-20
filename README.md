@@ -297,7 +297,7 @@ The following roadmap is organized by **impact and technical depth**, with portf
 *   [ ] Pipe support (`|`)
 *   [ ] Input/output redirection (`>`, `>>`, `<`)
 *   [ ] Proper signal handling (`SIGINT`, Ctrl+C)
-*   [ ] Return status of the last executed command (`$?`)
+*   [x] Return status of the last executed command (`$?`)
 *   [x] Command history (in-memory)
 
 ### Medium Priority (Shell Behavior and Usability)
