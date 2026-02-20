@@ -1,7 +1,9 @@
 #include "core/shell.hpp"
+#include "core/shellContext.hpp"
 
 int main() {
-  shell();
+  ShellContext ctx;
+  shell(ctx);
 
   return 0;
 }

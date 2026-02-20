@@ -1,2 +1,3 @@
+#include "shellContext.hpp"
 #pragma once
-void shell();
+void shell(ShellContext &ctx);

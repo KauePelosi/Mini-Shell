@@ -1,11 +1,12 @@
 #include "built-ins/builtCd.hpp"
+#include "core/shellContext.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <string>
 #include <unistd.h>
 #include <vector>
 
-int builtCd(const std::vector<std::string> &tokens) {
+int builtCd(const std::vector<std::string> &tokens, ShellContext &ctx) {
   const char *path = nullptr;
   if (tokens.size() < 2) {
     path = getenv("HOME");

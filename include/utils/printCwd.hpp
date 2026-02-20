@@ -1,2 +1,3 @@
 #pragma once
-void printCwd();
+#include "core/shellContext.hpp"
+void printCwd(ShellContext &ctx);

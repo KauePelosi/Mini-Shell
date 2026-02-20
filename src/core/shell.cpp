@@ -1,5 +1,6 @@
 #include "core/shell.hpp"
 #include "core/dispatcher.hpp"
+#include "core/shellContext.hpp"
 #include "core/tokenize.hpp"
 #include "utils/history.hpp"
 #include "utils/historyGlobal.hpp"
@@ -9,14 +10,13 @@
 #include <string>
 #include <unistd.h>
 
-void shell() {
+void shell(ShellContext &ctx) {
   history.load();
 
   std::string input{};
-  int status{};
 
-  while (true) {
-    printCwd();
+  while (ctx.running) {
+    printCwd(ctx);
 
     if (!std::getline(std::cin, input)) {
       std::cout << "\n";
@@ -25,7 +25,7 @@ void shell() {
     history.add(input);
     auto tokens = tokenize(input);
     if (!tokens.empty()) {
-      status = dispatcher(tokens);
+      ctx.lastExitStatus = dispatcher(tokens, ctx);
     }
   }
 }
