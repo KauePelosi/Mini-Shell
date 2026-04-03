@@ -20,6 +20,7 @@ target_sources(MiniShell PRIVATE
   src/utils/history.cpp
   src/utils/historyGlobal.cpp
   src/utils/printCwd.cpp
+  src/utils/hasPipe.cpp
 )
 
 target_include_directories(MiniShell PRIVATE include)
