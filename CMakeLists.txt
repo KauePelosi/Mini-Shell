@@ -13,9 +13,8 @@ set(CORE_SRC
 )
 
 set(EXEC_SRC
-    src/execution/handlePipe.cpp
+  src/execution/pipelineCommands.cpp
     src/execution/externalCommands.cpp
-    src/execution/hasPipe.cpp
 )
 
 set(BUILTIN_SRC
@@ -26,6 +25,7 @@ set(BUILTIN_SRC
 
 set(PARSER_SRC
     src/parser/tokenize.cpp
+    src/parser/pipeParser.cpp
 )
 
 set(UTILS_SRC
@@ -33,6 +33,7 @@ set(UTILS_SRC
   src/utils/history.cpp
   src/utils/historyGlobal.cpp
   src/utils/printCwd.cpp
+  src/execution/hasPipe.cpp
 )
 
 target_sources(MiniShell PRIVATE
