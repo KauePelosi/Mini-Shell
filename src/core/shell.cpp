@@ -1,6 +1,8 @@
 #include "core/shell.hpp"
 #include "core/dispatcher.hpp"
 #include "core/shellContext.hpp"
+#include "execution/hasPipe.hpp"
+#include "parser/pipeParser.hpp"
 #include "parser/tokenize.hpp"
 #include "utils/history.hpp"
 #include "utils/historyGlobal.hpp"
@@ -24,6 +26,11 @@ void shell(ShellContext &ctx) {
     }
     history.add(input);
     auto tokens = tokenize(input);
+
+    if (hasPipe(tokens)) {
+      std::vector<std::vector<std::string>> pipeCommands = pipeParser(tokens);
+    }
+
     if (!tokens.empty()) {
       ctx.lastExitStatus = dispatcher(tokens, ctx);
     }
