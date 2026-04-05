@@ -1,6 +1,7 @@
 #include "core/shell.hpp"
 #include "core/dispatcher.hpp"
 #include "core/shellContext.hpp"
+#include "execution/pipelineCommands.hpp"
 #include "parser/pipeParser.hpp"
 #include "parser/tokenize.hpp"
 #include "utils/hasPipe.hpp"
@@ -29,10 +30,13 @@ void shell(ShellContext &ctx) {
 
     if (hasPipe(tokens)) {
       std::vector<std::vector<std::string>> pipeCommands = pipeParser(tokens);
-    }
-
-    if (!tokens.empty()) {
-      ctx.lastExitStatus = dispatcher(tokens, ctx);
+      if (!pipeCommands.empty()) {
+        pipelineCommands(pipeCommands, ctx);
+      }
+    } else {
+      if (!tokens.empty()) {
+        ctx.lastExitStatus = dispatcher(tokens, ctx);
+      }
     }
   }
 }
