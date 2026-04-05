@@ -30,8 +30,10 @@ void shell(ShellContext &ctx) {
 
     if (hasPipe(tokens)) {
       std::vector<std::vector<std::string>> pipeCommands = pipeParser(tokens);
-      if (!pipeCommands.empty()) {
+      if (!pipeCommands.empty() && pipeCommands.size() > 1) {
         pipelineCommands(pipeCommands, ctx);
+      } else {
+        ctx.lastExitStatus = dispatcher(pipeCommands[0], ctx);
       }
     } else {
       if (!tokens.empty()) {
