@@ -1,6 +1,8 @@
 # Notes
-Este diretório contém minhas anotações de estudo.
 
-Aqui documento conceitos que estou aprendendo e utilizando, explicando com minhas próprias palavras para consolidar o entendimento e reforçar o aprendizado.
+This folder contains my personal study notes.
+Here I document concepts i am learning and explain them
+using my own words.
 
-O objetivo é servir como um registro do meu progresso e como uma forma de organizar conhecimento de maneira estruturada.
+The goal of this folder is to practice my documentation skills
+and learn more about concepts i am using.
