@@ -1,51 +1,119 @@
 # Pipe
 
-## O que é:
-Dentro de um shell a pipe é uma estrutura que conecta a saída de um comando a entrada de outro.
+## What is
 
-### Exemplo:
+Pipe is a mechanism to connect one
+command output (STDOUT_FILENO) to another
+command like an input (STDIN_FILENO).
 
-```
+Represented by the symbol `|` pipe is frequently used in terminals or Linux environment.
+
+### Exemple
+
+#### Process map
+
+Process → write → STDOUT → pipe → STDIN → next process
+
+#### Command
+
+```bash
 ls -l | grep ".cpp"
 ```
 
-O comando "ls -l" lista os arquivos de determinado diretório com mais detalhes, a partir disso a pipe redireciona essa saída de dados como entrada para o comando "grep .cpp" que faz com que sejam listados apenas os arquivos com a extensão .cpp daquele diretório.
+## How it works
 
-## Objetivo e utilidade:
-O pipe nasce de alguns conceitos do Unix que dizem:
+Above we have the commands `ls -l` which prints the files
+in a specific folder and the command `grep ".cpp"`
+which prints only the files with the extension .cpp
+
+This is just possible because pipe connect
+the `ls -l` output to the `grep ".cpp"` input.
+
+### In memory
+
+In memory, pipe is created by kernel,
+which manage its size and communicate
+using File Descriptors - `fd`.
+
+In Linux, everything is a file, that's the `fd` importance,
+using them kernel say what is happen
+with the process and talk this to pipe.
+
+#### SysCall (System Calls)
+
+Taking a closer look at pipe, we have the syscalls, its the interface
+between a user program and the kernel.
+It is used when your program need something just kernel can do,
+like creating a process or a communication channel.
+
+##### SysCall Exemples
+
+1. Fork()
+   Fork() is the SysCall responsible for providing a way
+   to create a new process.
+
+   **Example:**
+
+   ```cpp
+   pid_t pid = fork();
+   ```
+
+   **Explanation**
+   `pid_t` Its an specific type used to represented the Process Id (Pid).
+
+2. Exec()
+   Exec() is a family of SysCalls responsible for replacing the
+   current process image with a new program.
+
+   **Exemple**
+
+   ```cpp
+   execvp("ls", args);
+   ```
+
+   **Explanation**
+   `execvp` searches for the program in PATH and passes `args`
+   (a null-terminated array) as argument.
+
+3. Pipe()
+   Pipe() is a SysCall responsible to created an unidirectional data channel
+   between two File Descriptors.
+
+   **Example**
+
+   ```cpp
+   int fd[2];
+   pipe(fd);
+   ```
+
+   **Explanation**
+   `fd[0]` holds the read end and `fd[1]` holds the write end.
+   Data written with `fd[1]` can be read from `fd[0]`.
+
+4. Close()
+   Close() is the SysCall responsible for releasing a file descriptor,
+   signaling EOF to the other end of a pipe.
+   **Example:**
+
+```cpp
+   close(fd[0]);
+   close(fd[1]);
 ```
-"Faça uma coisa e a faça bem".
+
+**Explanation**
+Always close unused ends in both parent and child. Leaving a write
+end open prevents `read()` from ever returning EOF.
+
+1. Dup2()
+   Dup2() is the SysCall responsible for duplicating a file descriptor
+   into a specific target, commonly used to redirect stdin/stdout.
+   **Example:**
+
+```cpp
+   dup2(fd[1], STDOUT_FILENO);
 ```
 
-Dessa forma o real poder e utilidade do pipe é a praticidade que ele te da ao permitir que comandos pequenos se conectem entre si de forma extremamente rápida e organizada.
-
-## Como funciona:
-A pipe estabelece uma comunicação direta com o kernel, criando um túnel de comunicação onde a saída de programa X (stdout) se transfora na entrada do programa Y (stdin). O mais interessante é que a comunicação entre os comandos utilizando a pipe como ponte acontece em tempo real, ou seja, enquanto comando X está gerando sua saída, comando Y já está consumindo a mesma.
-
-### Na memória
-O que ocorre ainda mais internamente é a criação de vários processos ao mesmo tempo, com o uso do comando fork() que pede ao kernel linux que crie um processo novo inicialmente igual ao processo que chamou o fork().
-
-Tomando como exemplo novamente o comando:
-
-```
-ls -l | grep ".cpp"
-```
-
-Na execução desse comando pelo shell, acontece o seguinte:
-
-* O shell detecta se na entrada do usuário existe alguma pipe (|).
-
-* A partir da identificação da pipe, o shell cria um fd (filedescriptor), que é um identificador em forma de inteiro que tem o objetivo de informar ao kernel o que está acontecendo com os arquivos (o kernel linux trata tudo como arquivos), através do comando "int fd[[2]]" onde fd[[0]] representa a leitura (consumo dos dados - stdin) e fd[[1]] representa a escrita (envio dos dados - stdout)
-
-* O shell pede ao sistema operacional que crie dois processos novos com o fork(), um para cada comando;
-
-* O shell então utiliza o comando dup2 para redirecionar a saída do comando ls -l para a pipe que a direciona como entrada para o comando grep ".cpp".
-
-Exemplo visual
-```
-ls -l stdout -> fd[1] pipe fd[0] -> stdin grep
-```
-
-## Conclusão
-A pipe é um mecanismo essencial de comunicação entre processos porque facilita demais a vida.
-Futuramente pretendo adicionar mais documentações, principalmente de teor técnico do meu aprendizado, aprofundando o funcionamento conforme evoluo a adição da pipe no meu shell.
+**Explanation**
+The target fd (`STDOUT_FILENO`) is closed and replaced by a copy
+of the source fd (`fd[1]`). Any write to stdout will now go
+into the pipe.
