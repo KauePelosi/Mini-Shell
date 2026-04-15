@@ -10,29 +10,25 @@ This project is intentionally scoped: it is not meant to replace Bash or Zsh, bu
 
 ### Implemented
 
-*   Interactive prompt displaying the **current working directory (cwd)**
-*   Command input via `std::getline`
-*   Custom **tokenizer** with support for single and double quotes
-*   Execution of external commands using:
-    *   `fork()`
-    *   `execvp()`
-    *   `waitpid()`
-*   Built-in command system with dynamic dispatch
-*   Implemented built-ins:
-    *   `cd` (defaults to `$HOME`)
-    *   `exit [status]`
-    *   `history` (in-memory)
-*   Return status of the last executed command (`$?`)
-*   Basic pipeline parsing (`|`)
-*   Clear separation between:
-    *   internal commands (built-ins)
-    *   external system commands
-*   Modular project structure (`src/` / `include/`)
-*   Fully functional compiled binary
-
-### In Progress
-
-*   **Pipeline execution with multiple processes:** The core logic for creating processes and pipes is being developed to enable full pipeline functionality.
+- Interactive prompt displaying the **current working directory (cwd)**
+- Command input via `std::getline`
+- Custom **tokenizer** with support for single and double quotes
+- Execution of external commands using:
+  - `fork()`
+  - `execvp()`
+  - `waitpid()`
+- Built-in command system with dynamic dispatch
+- Implemented built-ins:
+  - `cd` (defaults to `$HOME`)
+  - `exit [status]`
+  - `history` (in-memory)
+- Return status of the last executed command (`$?`)
+- Basic pipeline parsing (`|`)
+- Clear separation between:
+  - internal commands (built-ins)
+  - external system commands
+- Modular project structure (`src/` / `include/`)
+- Fully functional compiled binary
 
 ---
 
@@ -76,9 +72,9 @@ ls -l | grep cpp | wc -l
 
 Previously, the shell only supported executing a **single command at a time**. However, real shells support chaining commands through pipes, which requires:
 
-*   **Multiple processes:** Each command in a pipeline typically runs in its own process.
-*   **Inter-process communication (IPC):** A mechanism to transfer data (output) from one process to another (input).
-*   **Coordinated execution:** Managing the lifecycle and communication between these processes.
+- **Multiple processes:** Each command in a pipeline typically runs in its own process.
+- **Inter-process communication (IPC):** A mechanism to transfer data (output) from one process to another (input).
+- **Coordinated execution:** Managing the lifecycle and communication between these processes.
 
 This change introduces the foundation for that behavior.
 
@@ -114,21 +110,21 @@ A new step, `pipeParser`, splits these tokens into commands:
 
 For a pipeline with `N` commands:
 
-*   `N` processes are created (`fork()`)
-*   `N-1` pipes are created (`pipe()`)
-*   File descriptors are redirected using `dup2()`
+- `N` processes are created (`fork()`)
+- `N-1` pipes are created (`pipe()`)
+- File descriptors are redirected using `dup2()`
 
 Each process:
 
-*   Reads from the previous command (if not first)
-*   Writes to the next command (if not last)
+- Reads from the previous command (if not first)
+- Writes to the next command (if not last)
 
 ### Key System Calls
 
-*   **`pipe()`:** Creates a unidirectional communication channel (`fd[0]` → read end, `fd[1]` → write end).
-*   **`fork()`:** Creates a child process (returns `0` in child, child PID in parent).
-*   **`dup2()`:** Redirects standard streams (`STDIN_FILENO`, `STDOUT_FILENO`).
-*   **`exec*()`:** Replaces the current process with a new program.
+- **`pipe()`:** Creates a unidirectional communication channel (`fd[0]` → read end, `fd[1]` → write end).
+- **`fork()`:** Creates a child process (returns `0` in child, child PID in parent).
+- **`dup2()`:** Redirects standard streams (`STDIN_FILENO`, `STDOUT_FILENO`).
+- **`exec*()`:** Replaces the current process with a new program.
 
 ### Integration
 
@@ -182,8 +178,9 @@ This command defines the project's name and specifies the programming languages 
 In CMake, a target is any artifact that CMake is configured to build. This can include executables, libraries, or other custom outputs.
 
 **Examples:**
-*   **Executable Target:** `add_executable(MiniShell)`
-*   **Library Target:** `add_library(minishell_lib)`
+
+- **Executable Target:** `add_executable(MiniShell)`
+- **Library Target:** `add_library(minishell_lib)`
 
 All build configurations, such as source files, compile options, and link libraries, are associated with specific targets.
 
@@ -248,10 +245,11 @@ These options help maintain code quality and catch potential issues during compi
 CMake supports different build types, which control optimization levels and the inclusion of debugging symbols. The build type is selected during the configuration step, not within the `CMakeLists.txt` file itself.
 
 **Common Build Types:**
-*   `Debug`: Optimized for debugging, with minimal or no optimizations and full debug symbols.
-*   `Release`: Optimized for performance, with maximum optimizations and no debug symbols.
-*   `RelWithDebInfo`: Optimized for performance, but includes debug symbols for easier post-mortem debugging.
-*   `MinSizeRel`: Optimized for the smallest possible binary size.
+
+- `Debug`: Optimized for debugging, with minimal or no optimizations and full debug symbols.
+- `Release`: Optimized for performance, with maximum optimizations and no debug symbols.
+- `RelWithDebInfo`: Optimized for performance, but includes debug symbols for easier post-mortem debugging.
+- `MinSizeRel`: Optimized for the smallest possible binary size.
 
 To specify a build type during configuration:
 
@@ -270,9 +268,10 @@ cmake -B build -DCMAKE_BUILD_TYPE=Debug
 ```
 
 This step performs the following actions:
-*   Creates the `build/` directory if it doesn't already exist.
-*   Generates the native build system files (e.g., `Makefile` for Make, or `build.ninja` for Ninja).
-*   Generates the `compile_commands.json` file, which is crucial for various development tools.
+
+- Creates the `build/` directory if it doesn't already exist.
+- Generates the native build system files (e.g., `Makefile` for Make, or `build.ninja` for Ninja).
+- Generates the `compile_commands.json` file, which is crucial for various development tools.
 
 #### 2. Build the Project
 
@@ -300,35 +299,35 @@ The following roadmap is organized by **impact and technical depth**, with portf
 
 ### High Priority (Core Shell Features)
 
-*   [x] Pipe support (`|`) - *Parsing implemented, execution in progress*
-*   [ ] Input/output redirection (`>`, `>>`, `<`)
-*   [ ] Proper signal handling (`SIGINT`, Ctrl+C)
-*   [x] Return status of the last executed command (`$?`)
-*   [x] Command history (in-memory)
+- [x] Pipe support (`|`)
+- [ ] Input/output redirection (`>`, `>>`, `<`)
+- [ ] Proper signal handling (`SIGINT`, Ctrl+C)
+- [x] Return status of the last executed command (`$?`)
+- [x] Command history (in-memory)
 
 ### Medium Priority (Shell Behavior and Usability)
 
-*   [ ] Environment variable expansion (`$VAR`)
-*   [ ] Built-in `export` and `unset`
-*   [ ] Tilde expansion (`~`)
-*   [ ] Improved parser (state machine or simple AST)
-*   [ ] Error messages closer to real shells
+- [ ] Environment variable expansion (`$VAR`)
+- [ ] Built-in `export` and `unset`
+- [ ] Tilde expansion (`~`)
+- [ ] Improved parser (state machine or simple AST)
+- [ ] Error messages closer to real shells
 
 ### Advanced / High-Value Enhancements
 
-*   [x] Pipeline execution with multiple processes - *Under development*
-*   [ ] Job control basics (`fg`, `bg`, `jobs`)
-*   [ ] Background execution (`&`)
-*   [ ] Logical operators (`&&`, `||`)
-*   [ ] Subshell execution (`(command)`)
+- [x] Pipeline execution with multiple processes - _Under development_
+- [ ] Job control basics (`fg`, `bg`, `jobs`)
+- [ ] Background execution (`&`)
+- [ ] Logical operators (`&&`, `||`)
+- [ ] Subshell execution (`(command)`)
 
 ### Low Priority (Polish and Portfolio Extras)
 
-*   [ ] Config file support (`.minishellrc`)
-*   [ ] Customizable prompt
-*   [ ] Debug / verbose mode
-*   [ ] Automated tests
-*   [ ] Simple performance benchmarks
+- [ ] Config file support (`.minishellrc`)
+- [ ] Customizable prompt
+- [ ] Debug / verbose mode
+- [ ] Automated tests
+- [ ] Simple performance benchmarks
 
 ---
 
@@ -336,10 +335,10 @@ The following roadmap is organized by **impact and technical depth**, with portf
 
 MiniShell exists to:
 
-*   Demonstrate solid understanding of **Unix internals**
-*   Show clean, maintainable **C++ system-level code**
-*   Highlight architectural thinking, not just features
-*   Serve as a strong **portfolio project** for systems / backend roles
+- Demonstrate solid understanding of **Unix internals**
+- Show clean, maintainable **C++ system-level code**
+- Highlight architectural thinking, not just features
+- Serve as a strong **portfolio project** for systems / backend roles
 
 ---
 
@@ -355,9 +354,9 @@ After building the project using CMake, you can run MiniShell from the `bin` dir
 
 ## Project Status
 
-*   Stable core with clean architecture
-*   Pipeline parsing implemented, execution actively being developed.
-*   Strong foundation for incremental evolution and addition of classic shell features.
+- Stable core with clean architecture
+- Pipeline parsing implemented, execution actively being developed.
+- Strong foundation for incremental evolution and addition of classic shell features.
 
 ---
 
@@ -369,11 +368,11 @@ Personal project developed for educational and portfolio purposes, using the MIT
 
 ## Technologies and Concepts
 
-*   Modern C++ (C++17 / C++20)
-*   Unix/Linux system programming
-*   Process creation and management
-*   Inter-process communication (IPC) via pipes
-*   File system navigation
-*   Low-level system calls (`fork`, `exec`, `pipe`, `dup2`, `waitpid`, `chdir`)
-*   STL containers and algorithms
-*   Modular and extensible design
+- Modern C++ (C++17 / C++20)
+- Unix/Linux system programming
+- Process creation and management
+- Inter-process communication (IPC) via pipes
+- File system navigation
+- Low-level system calls (`fork`, `exec`, `pipe`, `dup2`, `waitpid`, `chdir`)
+- STL containers and algorithms
+- Modular and extensible design
