@@ -3,9 +3,12 @@
 #include <array>
 #include <cerrno>
 #include <cstddef>
+#include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <ostream>
 #include <string>
+#include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <vector>
@@ -45,8 +48,44 @@ int pipelineCommands(
           _exit(1);
         }
       }
+
+      if (i < pipeNumber) {
+        if (dup2(pipes[i][1], STDOUT_FILENO) == -1) {
+          std::cerr << shellName << ": failed to redirect STDOOUT - "
+                    << std::strerror(errno) << std::endl;
+          _exit(1);
+        }
+      }
+
+      for (const auto &fds : pipes) {
+        close(fds[0]);
+        close(fds[1]);
+      }
+
+      std::vector<char *> args;
+
+      for (const auto &arg : pipeCommands[i]) {
+        args.push_back(const_cast<char *>(arg.c_str()));
+      }
+      args.push_back(nullptr);
+
+      if (execvp(args[0], args.data()) == -1) {
+        std::cerr << shellName << ": command not found - " << args[0];
+        _exit(127);
+      }
     }
   }
 
-  return 0;
+  for (const auto &fds : pipes) {
+    close(fds[0]);
+    close(fds[1]);
+  }
+
+  int status = 0;
+
+  for (pid_t pid : pids) {
+    waitpid(pid, &status, 0);
+  }
+
+  return WEXITSTATUS(status);
 }
