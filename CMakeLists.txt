@@ -34,6 +34,7 @@ set(UTILS_SRC
   src/utils/historyGlobal.cpp
   src/utils/printCwd.cpp
   src/utils/hasPipe.cpp
+  src/utils/hasRedirection.cpp
 )
 
 target_sources(MiniShell PRIVATE
